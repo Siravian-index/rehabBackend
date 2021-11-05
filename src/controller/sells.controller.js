@@ -46,7 +46,17 @@ export class SellsController {
 
   delete = async (req, res, next) => {
     try {
-      const data = await model.Sell.remove({ _id: req.params.id });
+      //  const data = await model.Sell.remove({ _id: req.params.id });
+
+      console.log(req.params.id);
+      const data = await model.Sell.findById(req.params.id);
+
+      if (!data) {
+        throw new Error('Sell not found');
+      }
+
+      await data.remove();
+
       res.status(204).send({ data });
     } catch (e) {
       console.log(e);

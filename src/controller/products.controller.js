@@ -31,7 +31,7 @@ export class ProductsController extends BaseController {
       const data = await model.Product.findById(_id);
 
       if (!data) {
-        throw new Error('No se encontró el producto');
+        throw new Error('Product not found');
       }
 
       let doc = await model.Product.findOneAndUpdate({ _id }, req.body, {
@@ -47,7 +47,20 @@ export class ProductsController extends BaseController {
 
   delete = async (req, res, next) => {
     try {
-      const data = await model.Sell.remove({ _id: req.params.id });
+      // deleteOne
+
+      console.log(req.params.id);
+      const data = await model.Product.findById(req.params.id);
+      if (!data) {
+        throw new Error('Product not found');
+      }
+
+      await data.remove();
+
+      //  const data = await model.Sell.remove({ _id: req.params.id });
+      // pase el curl
+      // http://localhost:8000/api/product/6185975906095aebe1c56d05
+      //
       res.status(204).send({ data });
     } catch (e) {
       console.log(e);

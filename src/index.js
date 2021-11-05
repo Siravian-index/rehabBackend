@@ -6,6 +6,7 @@ import { router } from './routes/index.js';
 
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
 import { errorHandler } from './middleware/error-handler.middleware.js';
 import mongoose from 'mongoose';
 
@@ -23,13 +24,24 @@ mongoose
   })
   .catch((err) => console.log(err));
 
+// middleware
 app.use(express.json());
-// app.use(cors())
+app.use(
+  cors({
+    origin: '*',
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  })
+);
+app.use(helmet());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 
-app.get('/', (req, res) => {
-  res.send('test');
-});
-
+// routes
 app.use('/api', router);
 
 // app.use(errorHandler.exec())
