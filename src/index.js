@@ -18,8 +18,8 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    app.listen(process.env.APP_PORT, () => {
-      console.log('localhost:' + process.env.APP_PORT);
+    app.listen(process.env.PORT, () => {
+      console.log('localhost:' + process.env.PORT);
     });
   })
   .catch((err) => console.log(err));
