@@ -12,6 +12,20 @@ export class ProductsController extends BaseController {
     }
   };
 
+  getOne = async (req, res, next) => {
+    try {
+      console.log(req.params.id);
+      const data = await model.Product.findById(req.params.id);
+      if (!data) {
+        throw new Error('Product not found');
+      }
+      res.send({ data: data });
+    } catch (e) {
+      console.log(e);
+      next(e);
+    }
+  };
+
   create = async (req, res, next) => {
     try {
       const product = new model.Product({ ...req.body });
