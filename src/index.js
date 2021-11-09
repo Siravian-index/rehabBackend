@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv';
+import path from 'path'
 
 dotenv.config();
 
@@ -43,6 +44,21 @@ app.use(
 
 // routes
 app.use('/api', router);
-app.use('*', express.static('build'));
+//app.use('*', express.static('build'));
+
+// All other GET requests not handled before will return our React app
+
+app.use('/static', express.static(path.join(process.cwd(), 'build/static')))
+// temporal
+app.use('/manifest.json', express.static(path.join(process.cwd(), 'build/manifest.json')))
+app.use('/logo512.png', express.static(path.join(process.cwd(), 'build/logo512.png')))
+app.use('/logo192.png', express.static(path.join(process.cwd(), 'build/logo192.png')))
+app.use('/favicon.ico', express.static(path.join(process.cwd(), 'build/favicon.ico')))
+
+app.get('*', (req, res) => {
+  res.set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'")
+
+  res.sendFile(path.resolve(process.cwd(), 'build', 'index.html'));
+});
 
 // app.use(errorHandler.exec())
