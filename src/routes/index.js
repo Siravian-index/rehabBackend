@@ -2,6 +2,7 @@ import * as controller from '../controller/index.js';
 
 const productsController = new controller.ProductsController();
 const sellController = new controller.SellsController();
+const userController = new controller.UserController()
 
 import { Router } from 'express';
 
@@ -58,3 +59,17 @@ router.put('/sell', sellController.update);
  --data-raw ''
  */
 router.delete('/sell/:id', sellController.delete);
+
+
+
+router.get('/users', userController.all);
+
+/**
+  curl --location --request POST 'http://localhost:8000/api/user' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "email": "guerrero.chavez.cristian@gmail.com"
+}'
+ */
+router.post('/user', userController.verify);
+router.put('/user', userController.update);
