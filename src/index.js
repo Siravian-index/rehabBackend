@@ -43,5 +43,6 @@ app.use(
 
 // routes
 app.use('/api', router);
+app.use('*', express.static('build'));
 
 // app.use(errorHandler.exec())
