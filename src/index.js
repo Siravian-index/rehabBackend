@@ -59,6 +59,12 @@ app.use(
   '/favicon.ico',
   express.static(path.join(process.cwd(), 'build/favicon.ico'))
 );
+app.use(
+  '/android-chrome-192x192.png',
+  express.static(path.join(process.cwd(), 'build/android-chrome-192x192.png'))
+);
+
+// android-chrome-192x192.png
 
 app.get('*', (req, res) => {
   res.set(
