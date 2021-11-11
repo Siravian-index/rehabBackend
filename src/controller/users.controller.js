@@ -1,39 +1,32 @@
 import * as model from '../models/index.js';
 
-
 export class UserController {
   all = async (req, res, next) => {
-
-    const data = await model.User.find({})
+    const data = await model.User.find({});
     res.send({ data });
   };
 
   verify = async (req, res, next) => {
+    const { email } = req.body;
 
-    const { email } = req.body
-
-
-    let data = await model.User.findOne({ email })
+    let data = await model.User.findOne({ email });
 
     if (!data) {
-
       const product = new model.User({
         email,
-        rol: 'usuario',
-        status: 'pendiente'
+        rol: 'user',
+        status: 'pending',
       });
       await product.save();
-      data = await model.User.findOne({ email })
+      data = await model.User.findOne({ email });
     }
-
 
     res.send({ data });
   };
   update = async (req, res, next) => {
     try {
       const { _id } = req.body;
-      delete req.body.email
-
+      delete req.body.email;
 
       console.log(_id);
       const data = await model.User.findById(_id);
@@ -51,6 +44,5 @@ export class UserController {
       console.log(e);
       next(e);
     }
-
-  }
+  };
 }
